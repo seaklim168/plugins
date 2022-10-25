@@ -287,7 +287,6 @@ class ImagePicker {
     if (maxHeight != null && maxHeight < 0) {
       throw ArgumentError.value(maxHeight, 'maxHeight', 'cannot be negative');
     }
-
     return platform.getMultiImageWithOptions(
       options: MultiImagePickerOptions(
         imageOptions: ImageOptions(
@@ -295,6 +294,38 @@ class ImagePicker {
           maxHeight: maxHeight,
           imageQuality: imageQuality,
           requestFullMetadata: requestFullMetadata,
+        ),
+      ),
+    );
+  }
+
+  /// custom
+  Future<List<XFile>> customPickMultiImage({
+    double? maxWidth,
+    double? maxHeight,
+    int? imageQuality,
+    bool requestFullMetadata = true,
+    String? type
+  }) {
+    if (imageQuality != null && (imageQuality < 0 || imageQuality > 100)) {
+      throw ArgumentError.value(
+          imageQuality, 'imageQuality', 'must be between 0 and 100');
+    }
+    if (maxWidth != null && maxWidth < 0) {
+      throw ArgumentError.value(maxWidth, 'maxWidth', 'cannot be negative');
+    }
+    if (maxHeight != null && maxHeight < 0) {
+      throw ArgumentError.value(maxHeight, 'maxHeight', 'cannot be negative');
+    }
+
+    return platform.getCustomMultiImageWithOptions(
+      options: MultiImagePickerOptions(
+        imageOptions: ImageOptions(
+          maxWidth: maxWidth,
+          maxHeight: maxHeight,
+          imageQuality: imageQuality,
+          requestFullMetadata: requestFullMetadata,
+          type: type
         ),
       ),
     );
