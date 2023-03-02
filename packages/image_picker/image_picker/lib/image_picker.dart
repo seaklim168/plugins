@@ -27,7 +27,7 @@ class ImagePicker {
 
   /// Returns a [PickedFile] object wrapping the image that was picked.
   ///
-  /// The returned [PickedFile] is intended to be used within a single APP session. Do not save the file path and use it across sessions.
+  /// The returned [PickedFile] is intended to be used within a single      APP session. Do not save the file path and use it across sessions.
   ///
   /// The `source` argument controls where the image comes from. This can
   /// be either [ImageSource.camera] or [ImageSource.gallery].
