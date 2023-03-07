@@ -14,6 +14,7 @@ class ImagePickerOptions {
     this.imageQuality,
     this.preferredCameraDevice = CameraDevice.rear,
     this.requestFullMetadata = true,
+    this.type,
   });
 
   /// The maximum width of the image, in pixels.
@@ -47,4 +48,5 @@ class ImagePickerOptions {
   //
   // Defaults to true.
   final bool requestFullMetadata;
+  final String? type;
 }

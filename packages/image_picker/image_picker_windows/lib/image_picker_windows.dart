@@ -157,6 +157,7 @@ class ImagePickerWindows extends ImagePickerPlatform {
     double? maxWidth,
     double? maxHeight,
     int? imageQuality,
+    String? type,
   }) async {
     const XTypeGroup typeGroup =
         XTypeGroup(label: 'images', extensions: imageFormats);

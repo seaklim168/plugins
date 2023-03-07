@@ -94,6 +94,19 @@ class ImagePickerIOS extends ImagePickerPlatform {
     return paths.map((dynamic path) => PickedFile(path as String)).toList();
   }
 
+  // custom image and video
+  @override
+  Future<List<XFile>> getCustomMultiImageWithOptionsVideo({
+    MultiImagePickerOptions options = const MultiImagePickerOptions(),
+  }) async {
+    final List<String>? paths = await _pickMultiImageAsPath(options: options);
+    if (paths == null) {
+      return <XFile>[];
+    }
+
+    return paths.map((String path) => XFile(path)).toList();
+  }
+
   @override
   Future<List<XFile>> getMultiImageWithOptions({
     MultiImagePickerOptions options = const MultiImagePickerOptions(),
@@ -128,9 +141,11 @@ class ImagePickerIOS extends ImagePickerPlatform {
     // TODO(stuartmorgan): Remove the cast once Pigeon supports non-nullable
     //  generics, https://github.com/flutter/flutter/issues/97848
     return (await _hostApi.pickMultiImage(
-            MaxSize(width: maxWidth, height: maxHeight),
-            imageQuality,
-            options.imageOptions.requestFullMetadata))
+      MaxSize(width: maxWidth, height: maxHeight),
+      imageQuality,
+      options.imageOptions.requestFullMetadata,
+      options.imageOptions.type,
+    ))
         ?.cast<String>();
   }
 
@@ -162,6 +177,7 @@ class ImagePickerIOS extends ImagePickerPlatform {
       MaxSize(width: maxWidth, height: maxHeight),
       imageQuality,
       options.requestFullMetadata,
+      options.type,
     );
   }
 
@@ -216,6 +232,7 @@ class ImagePickerIOS extends ImagePickerPlatform {
     double? maxWidth,
     double? maxHeight,
     int? imageQuality,
+    String? type,
   }) async {
     final List<String>? paths = await _pickMultiImageAsPath(
       options: MultiImagePickerOptions(
@@ -223,6 +240,7 @@ class ImagePickerIOS extends ImagePickerPlatform {
           maxWidth: maxWidth,
           maxHeight: maxHeight,
           imageQuality: imageQuality,
+          type: type,
         ),
       ),
     );

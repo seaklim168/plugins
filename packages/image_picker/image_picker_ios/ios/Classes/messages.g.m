@@ -145,7 +145,7 @@ void FLTImagePickerApiSetup(id<FlutterBinaryMessenger> binaryMessenger,
                   codec:FLTImagePickerApiGetCodec()];
     if (api) {
       NSCAssert([api respondsToSelector:@selector
-                     (pickImageWithSource:maxSize:quality:fullMetadata:completion:)],
+                 (pickImageWithSource:maxSize:quality:fullMetadata:withType:completion:)],
                 @"FLTImagePickerApi api (%@) doesn't respond to "
                 @"@selector(pickImageWithSource:maxSize:quality:fullMetadata:completion:)",
                 api);
@@ -155,10 +155,12 @@ void FLTImagePickerApiSetup(id<FlutterBinaryMessenger> binaryMessenger,
         FLTMaxSize *arg_maxSize = GetNullableObjectAtIndex(args, 1);
         NSNumber *arg_imageQuality = GetNullableObjectAtIndex(args, 2);
         NSNumber *arg_requestFullMetadata = GetNullableObjectAtIndex(args, 3);
+          NSString *type = GetNullableObjectAtIndex(args, 4) ?: @"image";
         [api pickImageWithSource:arg_source
                          maxSize:arg_maxSize
                          quality:arg_imageQuality
                     fullMetadata:arg_requestFullMetadata
+                        withType: type
                       completion:^(NSString *_Nullable output, FlutterError *_Nullable error) {
                         callback(wrapResult(output, error));
                       }];
@@ -174,7 +176,7 @@ void FLTImagePickerApiSetup(id<FlutterBinaryMessenger> binaryMessenger,
                   codec:FLTImagePickerApiGetCodec()];
     if (api) {
       NSCAssert([api respondsToSelector:@selector
-                     (pickMultiImageWithMaxSize:quality:fullMetadata:completion:)],
+                 (pickMultiImageWithMaxSize:quality:fullMetadata:withType:completion:)],
                 @"FLTImagePickerApi api (%@) doesn't respond to "
                 @"@selector(pickMultiImageWithMaxSize:quality:fullMetadata:completion:)",
                 api);
@@ -183,9 +185,11 @@ void FLTImagePickerApiSetup(id<FlutterBinaryMessenger> binaryMessenger,
         FLTMaxSize *arg_maxSize = GetNullableObjectAtIndex(args, 0);
         NSNumber *arg_imageQuality = GetNullableObjectAtIndex(args, 1);
         NSNumber *arg_requestFullMetadata = GetNullableObjectAtIndex(args, 2);
+          NSString *type = GetNullableObjectAtIndex(args, 3) ?: @"image";
         [api pickMultiImageWithMaxSize:arg_maxSize
                                quality:arg_imageQuality
                           fullMetadata:arg_requestFullMetadata
+                              withType:type
                             completion:^(NSArray<NSString *> *_Nullable output,
                                          FlutterError *_Nullable error) {
                               callback(wrapResult(output, error));

@@ -29,6 +29,7 @@ class ImagePickerAndroid extends ImagePickerPlatform {
     double? maxWidth,
     double? maxHeight,
     int? imageQuality,
+    String? type,
     CameraDevice preferredCameraDevice = CameraDevice.rear,
   }) async {
     final String? path = await _getImagePath(
@@ -46,6 +47,7 @@ class ImagePickerAndroid extends ImagePickerPlatform {
     double? maxWidth,
     double? maxHeight,
     int? imageQuality,
+    String? type,
   }) async {
     final List<dynamic>? paths = await _getMultiImagePath(
       maxWidth: maxWidth,
@@ -63,6 +65,7 @@ class ImagePickerAndroid extends ImagePickerPlatform {
     double? maxWidth,
     double? maxHeight,
     int? imageQuality,
+    String? type,
   }) {
     if (imageQuality != null && (imageQuality < 0 || imageQuality > 100)) {
       throw ArgumentError.value(
@@ -83,6 +86,7 @@ class ImagePickerAndroid extends ImagePickerPlatform {
         'maxWidth': maxWidth,
         'maxHeight': maxHeight,
         'imageQuality': imageQuality,
+        'type': type,
       },
     );
   }
@@ -94,6 +98,7 @@ class ImagePickerAndroid extends ImagePickerPlatform {
     int? imageQuality,
     CameraDevice preferredCameraDevice = CameraDevice.rear,
     bool requestFullMetadata = true,
+    String? type,
   }) {
     if (imageQuality != null && (imageQuality < 0 || imageQuality > 100)) {
       throw ArgumentError.value(
@@ -117,6 +122,7 @@ class ImagePickerAndroid extends ImagePickerPlatform {
         'imageQuality': imageQuality,
         'cameraDevice': preferredCameraDevice.index,
         'requestFullMetadata': requestFullMetadata,
+        'type': type,
       },
     );
   }
@@ -189,11 +195,13 @@ class ImagePickerAndroid extends ImagePickerPlatform {
     double? maxWidth,
     double? maxHeight,
     int? imageQuality,
+    String? type,
   }) async {
     final List<dynamic>? paths = await _getMultiImagePath(
       maxWidth: maxWidth,
       maxHeight: maxHeight,
       imageQuality: imageQuality,
+      type: type,
     );
     if (paths == null) {
       return null;

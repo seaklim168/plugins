@@ -115,7 +115,7 @@ class ImagePickerApi {
   static const MessageCodec<Object?> codec = _ImagePickerApiCodec();
 
   Future<String?> pickImage(SourceSpecification arg_source, MaxSize arg_maxSize,
-      int? arg_imageQuality, bool arg_requestFullMetadata) async {
+      int? arg_imageQuality, bool arg_requestFullMetadata, String? type) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.ImagePickerApi.pickImage', codec,
         binaryMessenger: _binaryMessenger);
@@ -123,7 +123,8 @@ class ImagePickerApi {
       arg_source,
       arg_maxSize,
       arg_imageQuality,
-      arg_requestFullMetadata
+      arg_requestFullMetadata,
+      type,
     ]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
@@ -144,13 +145,16 @@ class ImagePickerApi {
   }
 
   Future<List<String?>?> pickMultiImage(MaxSize arg_maxSize,
-      int? arg_imageQuality, bool arg_requestFullMetadata) async {
+      int? arg_imageQuality, bool arg_requestFullMetadata, String? type) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.ImagePickerApi.pickMultiImage', codec,
         binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap = await channel.send(
-            <Object?>[arg_maxSize, arg_imageQuality, arg_requestFullMetadata])
-        as Map<Object?, Object?>?;
+    final Map<Object?, Object?>? replyMap = await channel.send(<Object?>[
+      arg_maxSize,
+      arg_imageQuality,
+      arg_requestFullMetadata,
+      type,
+    ]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',

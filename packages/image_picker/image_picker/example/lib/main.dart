@@ -280,6 +280,19 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: FloatingActionButton(
+              onPressed: () {
+                _picker.customPickMultiImage(type: 'all').then((value) {
+                  print("hello world");
+                });
+              },
+              heroTag: 'image0',
+              tooltip: 'Pick Image from gallery',
+              child: const Icon(Icons.mediation),
+            ),
+          ),
           Semantics(
             label: 'image_picker_example_from_gallery',
             child: FloatingActionButton(

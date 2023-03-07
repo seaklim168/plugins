@@ -8,5 +8,5 @@ enum ImageSource {
   camera,
 
   /// Opens the user's photo gallery.
-  gallery
+  gallery,
 }

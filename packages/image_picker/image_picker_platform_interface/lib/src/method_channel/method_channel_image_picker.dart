@@ -52,33 +52,13 @@ class MethodChannelImagePicker extends ImagePickerPlatform {
 
     return paths.map((dynamic path) => PickedFile(path as String)).toList();
   }
-  
-  /// custom
-  @override
-  Future<List<PickedFile>?> customPickMultiImage({
-    double? maxWidth,
-    double? maxHeight,
-    int? imageQuality,
-    String? type
-  }) async {
-    final List<dynamic>? paths = await _getCustomMultiImagePath(
-      maxWidth: maxWidth,
-      maxHeight: maxHeight,
-      imageQuality: imageQuality,
-      type: type
-    );
-    if (paths == null) {
-      return null;
-    }
-
-    return paths.map((dynamic path) => PickedFile(path as String)).toList();
-  }
 
   Future<List<dynamic>?> _getMultiImagePath({
     double? maxWidth,
     double? maxHeight,
     int? imageQuality,
     bool requestFullMetadata = true,
+    String? type,
   }) {
     if (imageQuality != null && (imageQuality < 0 || imageQuality > 100)) {
       throw ArgumentError.value(
@@ -100,43 +80,10 @@ class MethodChannelImagePicker extends ImagePickerPlatform {
         'maxHeight': maxHeight,
         'imageQuality': imageQuality,
         'requestFullMetadata': requestFullMetadata,
+        'type': type,
       },
     );
   }
-
-  /// custom 
-  Future<List<dynamic>?> _getCustomMultiImagePath({
-    double? maxWidth,
-    double? maxHeight,
-    int? imageQuality,
-    bool requestFullMetadata = true,
-    String? type,
-  }) {
-    if (imageQuality != null && (imageQuality < 0 || imageQuality > 100)) {
-      throw ArgumentError.value(
-          imageQuality, 'imageQuality', 'must be between 0 and 100');
-    }
-
-    if (maxWidth != null && maxWidth < 0) {
-      throw ArgumentError.value(maxWidth, 'maxWidth', 'cannot be negative');
-    }
-
-    if (maxHeight != null && maxHeight < 0) {
-      throw ArgumentError.value(maxHeight, 'maxHeight', 'cannot be negative');
-    }
-
-    return _channel.invokeMethod<List<dynamic>?>(
-      'customPickMultiImage', // somehow, wrong name still works
-      <String, dynamic>{
-        'maxWidth': maxWidth,
-        'maxHeight': maxHeight,
-        'imageQuality': imageQuality,
-        'requestFullMetadata': requestFullMetadata,
-        'type' : type
-      },
-    );
-  }
-
 
   Future<String?> _getImagePath({
     required ImageSource source,
@@ -145,6 +92,7 @@ class MethodChannelImagePicker extends ImagePickerPlatform {
     int? imageQuality,
     CameraDevice preferredCameraDevice = CameraDevice.rear,
     bool requestFullMetadata = true,
+    String? type,
   }) {
     if (imageQuality != null && (imageQuality < 0 || imageQuality > 100)) {
       throw ArgumentError.value(
@@ -168,6 +116,7 @@ class MethodChannelImagePicker extends ImagePickerPlatform {
         'imageQuality': imageQuality,
         'cameraDevice': preferredCameraDevice.index,
         'requestFullMetadata': requestFullMetadata,
+        'type': type,
       },
     );
   }
@@ -268,6 +217,7 @@ class MethodChannelImagePicker extends ImagePickerPlatform {
       imageQuality: options.imageQuality,
       preferredCameraDevice: options.preferredCameraDevice,
       requestFullMetadata: options.requestFullMetadata,
+      type: options.type,
     );
     return path != null ? XFile(path) : null;
   }
@@ -277,33 +227,13 @@ class MethodChannelImagePicker extends ImagePickerPlatform {
     double? maxWidth,
     double? maxHeight,
     int? imageQuality,
+    String? type,
   }) async {
     final List<dynamic>? paths = await _getMultiImagePath(
       maxWidth: maxWidth,
       maxHeight: maxHeight,
       imageQuality: imageQuality,
-    );
-    if (paths == null) {
-      return null;
-    }
-
-    return paths.map((dynamic path) => XFile(path as String)).toList();
-  }
-
-
-  // custom
-  @override
-  Future<List<XFile>?> getCustomMultiImage({
-    double? maxWidth,
-    double? maxHeight,
-    int? imageQuality,
-    String? type
-  }) async {
-    final List<dynamic>? paths = await _getCustomMultiImagePath(
-      maxWidth: maxWidth,
-      maxHeight: maxHeight,
-      imageQuality: imageQuality,
-      type: type
+      type: type,
     );
     if (paths == null) {
       return null;
@@ -316,26 +246,7 @@ class MethodChannelImagePicker extends ImagePickerPlatform {
   Future<List<XFile>> getMultiImageWithOptions({
     MultiImagePickerOptions options = const MultiImagePickerOptions(),
   }) async {
-    final List<dynamic>? paths = await _getCustomMultiImagePath(
-      maxWidth: options.imageOptions.maxWidth,
-      maxHeight: options.imageOptions.maxHeight,
-      imageQuality: options.imageOptions.imageQuality,
-      requestFullMetadata: options.imageOptions.requestFullMetadata,
-      // type: ''
-    );
-    if (paths == null) {
-      return <XFile>[];
-    }
-
-    return paths.map((dynamic path) => XFile(path as String)).toList();
-  }
-
-
-  @override
-  Future<List<XFile>> getCustomMultiImageWithOptions({
-    MultiImagePickerOptions options = const MultiImagePickerOptions(),
-  }) async {
-    final List<dynamic>? paths = await _getCustomMultiImagePath(
+    final List<dynamic>? paths = await _getMultiImagePath(
       maxWidth: options.imageOptions.maxWidth,
       maxHeight: options.imageOptions.maxHeight,
       imageQuality: options.imageOptions.imageQuality,

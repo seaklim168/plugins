@@ -1,5 +1,3 @@
-
-
 // Copyright 2013 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
@@ -100,26 +98,12 @@ abstract class ImagePickerPlatform extends PlatformInterface {
   ///
   /// If no images were picked, the return value is null.
   Future<List<PickedFile>?> pickMultiImage({
-    double? maxWidth, 
+    double? maxWidth,
     double? maxHeight,
     int? imageQuality,
   }) {
     throw UnimplementedError('pickMultiImage() has not been implemented.');
   }
-
-
-  /// custom
-  Future<List<PickedFile>?> customPickMultiImage({  
-    double? maxWidth,
-    double? maxHeight,
-    int? imageQuality,
-    String? type
-  }) {
-    throw UnimplementedError('customPickMultiImage() has not been implemented.');
-  }
-
-
-
 
   /// Returns a [PickedFile] containing the video that was picked.
   ///
@@ -226,22 +210,11 @@ abstract class ImagePickerPlatform extends PlatformInterface {
   Future<List<XFile>?> getMultiImage({
     double? maxWidth,
     double? maxHeight,
-    int? imageQuality,  
+    int? imageQuality,
+    String? type,
   }) {
     throw UnimplementedError('getMultiImage() has not been implemented.');
   }
-
-  /// Custom Multi Images
-  Future<List<XFile>?> getCustomMultiImage({
-    double? maxWidth,
-    double? maxHeight,
-    int? imageQuality,
-    String? type
-  }) {
-    
-    throw UnimplementedError('getCustomMultiImage() has not been implemented.');
-  }
-  
 
   /// Returns a [XFile] containing the video that was picked.
   ///
@@ -330,19 +303,19 @@ abstract class ImagePickerPlatform extends PlatformInterface {
       maxWidth: options.imageOptions.maxWidth,
       maxHeight: options.imageOptions.maxHeight,
       imageQuality: options.imageOptions.imageQuality,
+      type: options.imageOptions.type,
     );
     return pickedImages ?? <XFile>[];
   }
 
-  /// custom 111
-  Future<List<XFile>> getCustomMultiImageWithOptions({
+  Future<List<XFile>> getCustomMultiImageWithOptionsVideo({
     MultiImagePickerOptions options = const MultiImagePickerOptions(),
   }) async {
-    final List<XFile>? pickedImages = await getCustomMultiImage(
+    final List<XFile>? pickedImages = await getMultiImage(
       maxWidth: options.imageOptions.maxWidth,
       maxHeight: options.imageOptions.maxHeight,
       imageQuality: options.imageOptions.imageQuality,
-      type: options.imageOptions.type
+      type: options.imageOptions.type,
     );
     return pickedImages ?? <XFile>[];
   }

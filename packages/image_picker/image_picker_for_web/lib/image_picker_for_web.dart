@@ -172,6 +172,7 @@ class ImagePickerPlugin extends ImagePickerPlatform {
     double? maxWidth,
     double? maxHeight,
     int? imageQuality,
+    String? type,
   }) async {
     final List<XFile> images = await getFiles(
       accept: _kAcceptImageMimeType,

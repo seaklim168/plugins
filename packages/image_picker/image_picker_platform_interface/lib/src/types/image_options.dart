@@ -6,14 +6,12 @@
 class ImageOptions {
   /// Creates an instance with the given [maxHeight], [maxWidth], [imageQuality]
   /// and [requestFullMetadata].
-  /// [type] is custom.
-  const ImageOptions({
-    this.maxHeight,
-    this.maxWidth,
-    this.imageQuality,
-    this.requestFullMetadata = true,
-    this.type
-  });
+  const ImageOptions(
+      {this.maxHeight,
+      this.maxWidth,
+      this.imageQuality,
+      this.requestFullMetadata = true,
+      this.type});
 
   /// The maximum width of the image, in pixels.
   ///
@@ -41,7 +39,5 @@ class ImageOptions {
   // Defaults to true.
   final bool requestFullMetadata;
 
-
-  /// custom
   final String? type;
 }

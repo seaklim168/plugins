@@ -27,7 +27,7 @@ class ImagePicker {
 
   /// Returns a [PickedFile] object wrapping the image that was picked.
   ///
-  /// The returned [PickedFile] is intended to be used within a single      APP session. Do not save the file path and use it across sessions.
+  /// The returned [PickedFile] is intended to be used within a single APP session. Do not save the file path and use it across sessions.
   ///
   /// The `source` argument controls where the image comes from. This can
   /// be either [ImageSource.camera] or [ImageSource.gallery].
@@ -216,6 +216,7 @@ class ImagePicker {
     int? imageQuality,
     CameraDevice preferredCameraDevice = CameraDevice.rear,
     bool requestFullMetadata = true,
+    String? type,
   }) {
     if (imageQuality != null && (imageQuality < 0 || imageQuality > 100)) {
       throw ArgumentError.value(
@@ -236,6 +237,7 @@ class ImagePicker {
         imageQuality: imageQuality,
         preferredCameraDevice: preferredCameraDevice,
         requestFullMetadata: requestFullMetadata,
+        type: type,
       ),
     );
   }
@@ -276,6 +278,7 @@ class ImagePicker {
     double? maxHeight,
     int? imageQuality,
     bool requestFullMetadata = true,
+    String? type,
   }) {
     if (imageQuality != null && (imageQuality < 0 || imageQuality > 100)) {
       throw ArgumentError.value(
@@ -294,19 +297,19 @@ class ImagePicker {
           maxHeight: maxHeight,
           imageQuality: imageQuality,
           requestFullMetadata: requestFullMetadata,
+          type: type,
         ),
       ),
     );
   }
 
   /// custom
-  Future<List<XFile>> customPickMultiImage({
-    double? maxWidth,
-    double? maxHeight,
-    int? imageQuality,
-    bool requestFullMetadata = true,
-    String? type
-  }) {
+  Future<List<XFile>> customPickMultiImage(
+      {double? maxWidth,
+      double? maxHeight,
+      int? imageQuality,
+      bool requestFullMetadata = true,
+      String? type}) {
     if (imageQuality != null && (imageQuality < 0 || imageQuality > 100)) {
       throw ArgumentError.value(
           imageQuality, 'imageQuality', 'must be between 0 and 100');
@@ -318,14 +321,14 @@ class ImagePicker {
       throw ArgumentError.value(maxHeight, 'maxHeight', 'cannot be negative');
     }
 
-    return platform.getCustomMultiImageWithOptions(
+    return platform.getCustomMultiImageWithOptionsVideo(
       options: MultiImagePickerOptions(
         imageOptions: ImageOptions(
           maxWidth: maxWidth,
           maxHeight: maxHeight,
           imageQuality: imageQuality,
           requestFullMetadata: requestFullMetadata,
-          type: type
+          type: type ?? 'image',
         ),
       ),
     );

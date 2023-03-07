@@ -107,11 +107,12 @@ typedef NS_ENUM(NSInteger, ImagePickerClassType) { UIImagePickerClassType, PHPic
   }
 }
 
-- (void)launchPHPickerWithContext:(nonnull FLTImagePickerMethodCallContext *)context
+- (void)launchPHPickerWithContext:(nonnull FLTImagePickerMethodCallContext *)context withType:(NSString *)type
     API_AVAILABLE(ios(14)) {
   PHPickerConfiguration *config =
       [[PHPickerConfiguration alloc] initWithPhotoLibrary:PHPhotoLibrary.sharedPhotoLibrary];
   config.selectionLimit = context.maxImageCount;
+if([type isEqual:@"image"])
   config.filter = [PHPickerFilter imagesFilter];
 
   _pickerViewController = [[PHPickerViewController alloc] initWithConfiguration:config];
@@ -165,6 +166,7 @@ typedef NS_ENUM(NSInteger, ImagePickerClassType) { UIImagePickerClassType, PHPic
                     maxSize:(nonnull FLTMaxSize *)maxSize
                     quality:(nullable NSNumber *)imageQuality
                fullMetadata:(NSNumber *)fullMetadata
+                   withType: (NSString *)type
                  completion:
                      (nonnull void (^)(NSString *_Nullable, FlutterError *_Nullable))completion {
   [self cancelInProgressCall];
@@ -184,7 +186,7 @@ typedef NS_ENUM(NSInteger, ImagePickerClassType) { UIImagePickerClassType, PHPic
 
   if (source.type == FLTSourceTypeGallery) {  // Capture is not possible with PHPicker
     if (@available(iOS 14, *)) {
-      [self launchPHPickerWithContext:context];
+      [self launchPHPickerWithContext:context withType: type];
     } else {
       [self launchUIImagePickerWithSource:source context:context];
     }
@@ -196,6 +198,7 @@ typedef NS_ENUM(NSInteger, ImagePickerClassType) { UIImagePickerClassType, PHPic
 - (void)pickMultiImageWithMaxSize:(nonnull FLTMaxSize *)maxSize
                           quality:(nullable NSNumber *)imageQuality
                      fullMetadata:(NSNumber *)fullMetadata
+                         withType: (NSString *)type
                        completion:(nonnull void (^)(NSArray<NSString *> *_Nullable,
                                                     FlutterError *_Nullable))completion {
   FLTImagePickerMethodCallContext *context =
@@ -205,7 +208,7 @@ typedef NS_ENUM(NSInteger, ImagePickerClassType) { UIImagePickerClassType, PHPic
   context.requestFullMetadata = [fullMetadata boolValue];
 
   if (@available(iOS 14, *)) {
-    [self launchPHPickerWithContext:context];
+    [self launchPHPickerWithContext:context withType:type];
   } else {
     // Camera is ignored for gallery mode, so the value here is arbitrary.
     [self launchUIImagePickerWithSource:[FLTSourceSpecification makeWithType:FLTSourceTypeGallery
